@@ -3,20 +3,14 @@ import { useState } from "react"
 
 export default function Counter(){
     const [count, setCount] = useState(0)
-    const handleClick = () =>{
+    const handleClick = () => {
         setCount(count + 1)
-
-
-
+        // count += 1
     }
-
-
     return(
         <div>
             <p>{count}</p>
-            <button onclick={handleClick}>plus</button>
+            <button onClick={handleClick}>plus</button>
         </div>
-
     )
-
 }
