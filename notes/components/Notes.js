@@ -1,6 +1,8 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 
+import { AiFillDelete } from "react-icons/ai"
+
 export default function Notes() {
     //   const { notes } = props   //object d-structure
     const [desc, setDesc] = useState('')
@@ -10,20 +12,20 @@ export default function Notes() {
     const [showAll, setShowAll] = useState(true)  //showall and showimp button
     const baseurl = ' http://localhost:4000/notes'
 
-    useEffect(() =>{
+    useEffect(() => {
         axios.get(' http://localhost:4000/notes')
-        .then(response =>{
-            console.log(response)
-            setNotes(response.data)
-        })
+            .then(response => {
+                console.log(response)
+                setNotes(response.data)
+            })
     }, [])
-   
 
 
-     //showall and showimp button
-    const filteredNotes = showAll         
-    ? notes
-    :notes.filter(n => n.important === true)
+
+    //showall and showimp button
+    const filteredNotes = showAll
+        ? notes
+        : notes.filter(n => n.important === true)
 
 
     const handleChange = (event) => {
@@ -41,13 +43,13 @@ export default function Notes() {
         }
         // console.log(newNote)
         axios.post(baseurl, newNote)
-        .then(response =>{
-            console.log(response.data)
-            setNotes(notes.concat(newNote))   //concat to send data after click add button to server(note)(list)
-        })
+            .then(response => {
+                console.log(response.data)
+                setNotes(notes.concat(newNote))   //concat to send data after click add button to server(note)(list)
+            })
 
         setDesc('')
-      
+
     }
 
 
@@ -55,52 +57,60 @@ export default function Notes() {
         if (window.confirm(`are you sure want to delete note with id ${noteId}`))
 
             axios.delete(`${baseurl}/${noteId}`)
-            .then(response =>{
-                console.log(response)
-                setNotes(notes.filter(n => n.id !== noteId))
-            })
-         
+                .then(response => {
+                    console.log(response)
+                    setNotes(notes.filter(n => n.id !== noteId))
+                })
+
 
 
     }
 
-    const handleEdit  =(noteID) =>{
-    //    alert(noteID)
-        const targetNote = notes.find(n => n.id ===noteID)
+    const handleEdit = (noteID) => {
+        //    alert(noteID)
+        const targetNote = notes.find(n => n.id === noteID)
         // console.log(notes.find(n =>n.id = noteID).desc)
         setDesc(targetNote.desc)
         setIsEdit(true)
         setTargetNote(targetNote)
     }
 
-    const handleSave = (event) =>{
+    const handleSave = (event) => {
         event.preventDefault()
-        axios.put(`${baseurl}/${targetNote.id}`, 
-        {...targetNote, desc:desc})
-        .then (response =>{
-            console.log(response.data)
-            const updatedNotes = notes.map(n => n.id === targetNote.id ?
-                {...targetNote, desc:desc}
-                : n)
-            setNotes(updatedNotes)
-        })
+        axios.put(`${baseurl}/${targetNote.id}`,
+            { ...targetNote, desc: desc })
+            .then(response => {
+                console.log(response.data)
+                const updatedNotes = notes.map(n => n.id === targetNote.id ?
+                    { ...targetNote, desc: desc }
+                    : n)
+                setNotes(updatedNotes)
+            })
 
-       
+
         setIsEdit(false)
         setDesc('')
     }
 
-    const handleImportant = () =>{
+    const handleImportant = () => {
         setShowAll(!showAll)
+    }
+
+
+    //css
+    const h2style = {
+        color: "blue",
+        fontStyle: "italic",
+        fontSize: 20
     }
 
     return (
         <>
-            <h1> Notes App</h1>
+            {/* <h1> Notes App</h1> */}
             <button onClick={handleImportant}>
                 show {showAll ? "important" : 'all'}
             </button>
-            <ul>
+            {/* <ul>
 
                 {
 
@@ -114,20 +124,76 @@ export default function Notes() {
                     )
 
                 }
-            </ul>
-            <form>
+            </ul> */}
+            {/* <form>
                 <input type="text" value={desc}
                     onChange={handleChange}
                 />
                 {' '}
                 {
                     isEdit ?
-                    <button onClick={handleSave}>save</button>
-                    : <button onClick={handleAdd}>Add</button>
+                        <button onClick={handleSave}>save</button>
+                        : <button onClick={handleAdd}>Add</button>
                 }
-                
 
-            </form>
+
+            </form> */}
+
+            {' '}
+
+            <button className="btn btn-primary" onClick={() => window.my_modal_5.showModal()}>Add</button>
+            <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+                <form method="dialog" className="modal-box">
+                    <h3 className="font-bold text-lg">Hello!</h3>
+                    <p className="py-4">Press ESC key or click the button below to close</p>
+                    <input type="text" value={desc}
+                    onChange={handleChange}
+                />
+                {' '}
+                {
+                    isEdit ?
+                        <button onClick={handleSave}>save</button>
+                        : <button onClick={handleAdd}>Add</button>
+                }
+                    <div className="modal-action">
+                        {/* if there is a button in form, it will close the modal */}
+                        <button className="btn">Close</button>
+                    </div>
+                </form>
+            </dialog>
+
+            <div className="overflow-x-auto">
+                <table className="table">
+                    {/* head */}
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Notes</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredNotes.map(notes =>
+                            <tr key={notes.id}>
+                                <td>{notes.id}</td>
+                                <td>{notes.desc}</td>
+                                <td>
+                                    <button onClick={(id) => handleDelete(notes.id)}>
+                                    <AiFillDelete/>
+                                    </button>
+                                    {' '}
+                                    <button onClick={(id) => handleEdit(notes.id)}>Edit</button>
+                                </td>
+
+                            </tr>
+
+                        )}
+
+
+                    </tbody>
+                </table>
+            </div>
 
 
         </>
