@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 
-import { AiFillDelete } from "react-icons/ai"
+import { AiFillDelete, AiFillEdit } from "react-icons/ai"
 
 export default function Notes() {
     //   const { notes } = props   //object d-structure
@@ -110,6 +110,8 @@ export default function Notes() {
             <button onClick={handleImportant}>
                 show {showAll ? "important" : 'all'}
             </button>
+
+
             {/* <ul>
 
                 {
@@ -141,26 +143,26 @@ export default function Notes() {
 
             {' '}
 
-            <button className="btn btn-primary" onClick={() => window.my_modal_5.showModal()}>Add</button>
+            {/* <button className="btn btn-primary" onClick={() => window.my_modal_5.showModal()}>Add</button>
             <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                 <form method="dialog" className="modal-box">
                     <h3 className="font-bold text-lg">Hello!</h3>
                     <p className="py-4">Press ESC key or click the button below to close</p>
                     <input type="text" value={desc}
-                    onChange={handleChange}
-                />
-                {' '}
-                {
-                    isEdit ?
-                        <button onClick={handleSave}>save</button>
-                        : <button onClick={handleAdd}>Add</button>
-                }
+                        onChange={handleChange}
+                    />
+                    {' '}
+                    {
+                        isEdit ?
+                            <button onClick={handleSave}>save</button>
+                            : <button onClick={handleAdd}>Add</button>
+                    }
                     <div className="modal-action">
-                        {/* if there is a button in form, it will close the modal */}
                         <button className="btn">Close</button>
                     </div>
                 </form>
-            </dialog>
+            </dialog> */}
+
 
             <div className="overflow-x-auto">
                 <table className="table">
@@ -169,7 +171,9 @@ export default function Notes() {
                         <tr>
                             <th></th>
                             <th>Notes</th>
+                            <th>Important</th>
                             <th>Action</th>
+                            {/* //    <th>Important</th> */}
 
                         </tr>
                     </thead>
@@ -178,13 +182,39 @@ export default function Notes() {
                             <tr key={notes.id}>
                                 <td>{notes.id}</td>
                                 <td>{notes.desc}</td>
+                                <td>{notes.important ? "true" : "false"}</td>
                                 <td>
                                     <button onClick={(id) => handleDelete(notes.id)}>
-                                    <AiFillDelete/>
+                                        <AiFillDelete />
                                     </button>
                                     {' '}
-                                    <button onClick={(id) => handleEdit(notes.id)}>Edit</button>
+                                    <button onClick={(id) => handleEdit(notes.id)}>
+                                        <AiFillEdit />
+                                    </button>
+                                    <button onClick={() => window.my_modal_2.showModal()}>
+                                    <AiFillEdit />
+                                    </button>
+                                    <dialog id="my_modal_1" className="modal">
+                                        <form method="dialog" className="modal-box">
+                                            <h3 className="font-bold text-lg">Hello!</h3>
+                                            <p className="py-4">Press ESC key or click outside to close</p>
+                                            <input type="text" value={desc}
+                                                onChange={handleChange}
+                                            />
+                                            {' '}
+                                            {
+                                                isEdit ?
+                                                    <button className="btn btn-primary" onClick={handleSave}>save</button>
+                                                    : <button className="btn btn-secondary" onClick={handleAdd}>Add</button>
+                                            }
+                                        </form>
+                                        <form method="dialog" className="modal-backdrop">
+                                            <button>close</button>
+                                        </form>
+                                    </dialog>
+
                                 </td>
+
 
                             </tr>
 
@@ -193,6 +223,27 @@ export default function Notes() {
 
                     </tbody>
                 </table>
+
+                {/* Open the modal using ID.showModal() method */}
+                <button className="btn btn-accent btn-block" onClick={() => window.my_modal_2.showModal()}>ADD</button>
+                <dialog id="my_modal_2" className="modal">
+                    <form method="dialog" className="modal-box">
+                        <h3 className="font-bold text-lg">Hello!</h3>
+                        <p className="py-4">Press ESC key or click outside to close</p>
+                        <input type="text" value={desc}
+                            onChange={handleChange}
+                        />
+                        {' '}
+                        {
+                            isEdit ?
+                                <button className="btn btn-primary" onClick={handleSave}>save</button>
+                                : <button className="btn btn-secondary" onClick={handleAdd}>Add</button>
+                        }
+                    </form>
+                    <form method="dialog" className="modal-backdrop">
+                        <button>close</button>
+                    </form>
+                </dialog>
             </div>
 
 
