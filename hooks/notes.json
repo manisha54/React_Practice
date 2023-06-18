@@ -1,0 +1,44 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "desc": "state management in react",
+      "imporstant": true
+    },
+    {
+      "id": 2,
+      "desc": "daisyUI provides a useful component library",
+      "imporstant": false
+    },
+    {
+      "desc": "mmmmm",
+      "important": true,
+      "id": 3
+    },
+    {
+      "desc": "bbnnn",
+      "important": false,
+      "id": 4
+    },
+    {
+      "desc": "new notes",
+      "important": false,
+      "id": 5
+    },
+    {
+      "desc": "new fbjsf",
+      "important": false,
+      "id": 6
+    },
+    {
+      "desc": "dskjhsjkfe",
+      "important": false,
+      "id": 7
+    },
+    {
+      "desc": "dsbdhsmefs",
+      "important": false,
+      "id": 8
+    }
+  ]
+}
